@@ -30,6 +30,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const formatAuthError = (err: unknown): string => {
+    const message = err instanceof Error ? err.message : String(err);
+    if (message.includes("auth/unauthorized-domain") || (err as { code?: string })?.code === "auth/unauthorized-domain") {
+      const domain = typeof window !== "undefined" ? window.location.hostname : "carvaan-app.netlify.app";
+      return `Domain authorization required: Please add "${domain}" to your Firebase Console under Authentication → Settings → Authorized domains.`;
+    }
+    return err instanceof Error ? err.message : "Authentication failed.";
+  };
+
   const handleGoogleLogin = async () => {
     setLoading(true);
     setErrorMessage("");
@@ -38,9 +47,7 @@ export default function LoginPage() {
       router.push("/");
     } catch (err: unknown) {
       console.error(err);
-      setErrorMessage(
-        err instanceof Error ? err.message : "Failed to sign in with Google."
-      );
+      setErrorMessage(formatAuthError(err));
     } finally {
       setLoading(false);
     }
@@ -75,11 +82,7 @@ export default function LoginPage() {
       } else if (status === "rejected") {
         router.push("/auth/status?state=rejected");
       } else {
-        setErrorMessage(
-          err instanceof Error
-            ? err.message
-            : "Invalid credentials or unauthorized account."
-        );
+        setErrorMessage(formatAuthError(err));
       }
     } finally {
       setLoading(false);

@@ -44,6 +44,7 @@ export default function CommitteeEventsPage() {
   const [startPointName, setStartPointName] = useState("");
   const [endPointName, setEndPointName] = useState("");
   const [coverImage, setCoverImage] = useState("");
+  const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=ss-HcTBup88");
 
   const loadEvents = useCallback(async () => {
     if (!user) return;
@@ -109,6 +110,7 @@ export default function CommitteeEventsPage() {
           { name: "Committee Helpdesk", phone: "112", role: "Central Police Liaison" },
           { name: "Medical Escort", phone: "108", role: "Ambulance Cell" },
         ],
+        videoUrl: videoUrl || "https://www.youtube.com/watch?v=ss-HcTBup88",
         coverImage:
           coverImage ||
           "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80",
@@ -422,6 +424,15 @@ export default function CommitteeEventsPage() {
                 placeholder="https://images.unsplash.com/..."
                 value={coverImage}
                 onChange={(e) => setCoverImage(e.target.value)}
+              />
+
+              <Input
+                label="Live Stream / YouTube Broadcast Link (Optional)"
+                type="url"
+                placeholder="https://www.youtube.com/watch?v=ss-HcTBup88"
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
+                helperText="Embeds an interactive video player on the public event page"
               />
 
               <div className="pt-2">

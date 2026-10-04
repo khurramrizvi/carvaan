@@ -41,6 +41,7 @@ export interface JuloosEvent {
   };
   announcements: Announcement[];
   emergencyContacts?: { name: string; phone: string; role?: string }[];
+  videoUrl?: string;
   coverImage?: string;
   createdAt: number;
   updatedAt: number;

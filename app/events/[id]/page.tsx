@@ -18,6 +18,7 @@ import {
   LostAndFoundItem,
 } from "@/types/event";
 import { RouteMap } from "@/components/events/RouteMap";
+import { EventVideoPlayer } from "@/components/events/EventVideoPlayer";
 import { VolunteerModal } from "@/components/events/VolunteerModal";
 import { NiyazModal } from "@/components/events/NiyazModal";
 import { SOSModal } from "@/components/events/SOSModal";
@@ -276,6 +277,13 @@ export default function EventDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* LEFT 2 COLUMNS */}
           <div className="md:col-span-2 space-y-6">
+            {/* EMBEDDED LIVE VIDEO PLAYER */}
+            <EventVideoPlayer
+              videoUrl={event.videoUrl || "https://www.youtube.com/watch?v=ss-HcTBup88"}
+              title={`${event.title} - Live Stream & Video Coverage`}
+              isLive={event.status === "live"}
+            />
+
             {/* CARD 1: ROUTE OF THE JULOOS */}
             <RouteMap
               startPoint={event.route.startPoint}

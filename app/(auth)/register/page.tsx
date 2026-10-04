@@ -44,6 +44,15 @@ export default function RegisterPage() {
     }
   };
 
+  const formatAuthError = (err: unknown, defaultMsg: string): string => {
+    const message = err instanceof Error ? err.message : String(err);
+    if (message.includes("auth/unauthorized-domain") || (err as { code?: string })?.code === "auth/unauthorized-domain") {
+      const domain = typeof window !== "undefined" ? window.location.hostname : "carvaan-app.netlify.app";
+      return `Domain authorization required: Please add "${domain}" to your Firebase Console under Authentication → Settings → Authorized domains.`;
+    }
+    return err instanceof Error ? err.message : defaultMsg;
+  };
+
   const handleGoogleSignup = async () => {
     setLoading(true);
     setErrorMessage("");
@@ -52,9 +61,7 @@ export default function RegisterPage() {
       router.push("/");
     } catch (err: unknown) {
       console.error(err);
-      setErrorMessage(
-        err instanceof Error ? err.message : "Failed to sign up with Google."
-      );
+      setErrorMessage(formatAuthError(err, "Failed to sign up with Google."));
     } finally {
       setLoading(false);
     }
@@ -90,9 +97,7 @@ export default function RegisterPage() {
       router.push("/auth/status?state=pending");
     } catch (err: unknown) {
       console.error(err);
-      setErrorMessage(
-        err instanceof Error ? err.message : "Registration failed. Please try again."
-      );
+      setErrorMessage(formatAuthError(err, "Registration failed. Please try again."));
     } finally {
       setLoading(false);
     }
