@@ -7,7 +7,6 @@ import {
   updateDoc,
   query,
   where,
-  orderBy,
   arrayUnion,
 } from "firebase/firestore";
 import { db } from "./client";
@@ -23,33 +22,57 @@ import {
   ItemStatus,
   Announcement,
 } from "@/types/event";
-import { SEED_EVENTS } from "./event-services";
+import {
+  SEED_EVENTS,
+  cleanFirestoreData,
+  getLocalEvents,
+  saveLocalEvent,
+  getLocalVolunteers,
+  updateLocalVolunteerStatus,
+  fetchEventLostAndFound,
+  updateLocalLostAndFoundStatus,
+} from "./event-services";
 
 /**
  * Fetch all events organized by a specific committee
  */
 export async function fetchCommitteeEvents(committeeId: string): Promise<JuloosEvent[]> {
+  const map = new Map<string, JuloosEvent>();
+
+  // 1. Seed events relevant to this committee
+  SEED_EVENTS.filter(
+    (e) => e.committeeId === committeeId || committeeId.includes("comm")
+  ).forEach((e) => map.set(e.id, e));
+
+  // 2. Custom events saved in localStorage
+  const localEvents = getLocalEvents();
+  localEvents
+    .filter((e) => e.committeeId === committeeId || committeeId.includes("comm"))
+    .forEach((e) => map.set(e.id, e));
+
+  // 3. Firestore query with single-field equality (no composite index error)
   try {
     const q = query(
       collection(db, "events"),
-      where("committeeId", "==", committeeId),
-      orderBy("createdAt", "desc")
+      where("committeeId", "==", committeeId)
     );
     const snap = await getDocs(q);
     if (!snap.empty) {
-      const list: JuloosEvent[] = [];
-      snap.forEach((d) => list.push(d.data() as JuloosEvent));
-      return list;
+      snap.forEach((d) => {
+        const item = d.data() as JuloosEvent;
+        map.set(item.id, item);
+      });
     }
   } catch (err) {
-    console.warn("Could not query committee events from Firestore, using fallback:", err);
+    console.warn("Could not query committee events from Firestore:", err);
   }
 
-  // Return committee filtered events from seed or all seed events if testing
-  const fallback = SEED_EVENTS.filter(
-    (e) => e.committeeId === committeeId || committeeId.includes("comm")
-  );
-  return fallback.length > 0 ? fallback : SEED_EVENTS;
+  const all = Array.from(map.values());
+  if (all.length > 0) {
+    all.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return all;
+  }
+  return SEED_EVENTS;
 }
 
 /**
@@ -67,36 +90,55 @@ export async function createNewCommitteeEvent(
     updatedAt: now,
   };
 
+  const cleaned = cleanFirestoreData(newEvent);
+
+  // 1. Immediately persist in localStorage for guaranteed availability
+  saveLocalEvent(cleaned);
+
+  // 2. Persist in Firestore
   try {
-    await setDoc(doc(db, "events", id), newEvent);
+    await setDoc(doc(db, "events", id), cleaned);
   } catch (err) {
     console.warn("Firestore event save error:", err);
   }
 
-  return newEvent;
+  return cleaned;
 }
 
 /**
  * Fetch all volunteers registered for an event
  */
 export async function fetchEventVolunteersList(eventId: string): Promise<VolunteerRegistration[]> {
+  const map = new Map<string, VolunteerRegistration>();
+
+  // 1. Read from local storage
+  const localVols = getLocalVolunteers(eventId);
+  localVols.forEach((v) => map.set(v.id, v));
+
+  // 2. Query Firestore (single field where query, no composite index needed)
   try {
     const q = query(
       collection(db, "volunteers"),
-      where("eventId", "==", eventId),
-      orderBy("appliedAt", "desc")
+      where("eventId", "==", eventId)
     );
     const snap = await getDocs(q);
     if (!snap.empty) {
-      const list: VolunteerRegistration[] = [];
-      snap.forEach((d) => list.push(d.data() as VolunteerRegistration));
-      return list;
+      snap.forEach((d) => {
+        const item = d.data() as VolunteerRegistration;
+        map.set(item.id, item);
+      });
     }
   } catch (err) {
-    console.warn("Could not fetch volunteers:", err);
+    console.warn("Could not fetch volunteers from Firestore:", err);
   }
 
-  // Realistic mock volunteers for demonstration
+  const list = Array.from(map.values());
+  if (list.length > 0) {
+    list.sort((a, b) => (b.appliedAt || 0) - (a.appliedAt || 0));
+    return list;
+  }
+
+  // Realistic mock volunteers for demonstration if none exist yet
   return [
     {
       id: `vol_${eventId}_1`,
@@ -106,6 +148,7 @@ export async function fetchEventVolunteersList(eventId: string): Promise<Volunte
       email: "zafar.abbas@example.com",
       phone: "+91 98765 11223",
       profilePicture: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80",
+      rolePreference: "Crowd Safety & Route Guide",
       status: "approved",
       attendance: "present",
       appliedAt: Date.now() - 86400000,
@@ -118,6 +161,7 @@ export async function fetchEventVolunteersList(eventId: string): Promise<Volunte
       email: "ali.haider@example.com",
       phone: "+91 98111 44556",
       profilePicture: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+      rolePreference: "Sabeel & Water Distribution",
       status: "pending",
       attendance: "absent",
       appliedAt: Date.now() - 43200000,
@@ -130,6 +174,7 @@ export async function fetchEventVolunteersList(eventId: string): Promise<Volunte
       email: "fatima.z@example.com",
       phone: "+91 98222 77889",
       profilePicture: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+      rolePreference: "Medical & First Aid Escort",
       status: "pending",
       attendance: "absent",
       appliedAt: Date.now() - 21600000,
@@ -144,6 +189,10 @@ export async function updateVolunteerStatus(
   volunteerId: string,
   status: VolunteerStatus
 ): Promise<void> {
+  // Update local storage record
+  updateLocalVolunteerStatus(volunteerId, status);
+
+  // Update Firestore
   try {
     await updateDoc(doc(db, "volunteers", volunteerId), { status });
   } catch (err) {
@@ -158,13 +207,13 @@ export async function fetchEventNiyazList(eventId: string): Promise<NiyazRegistr
   try {
     const q = query(
       collection(db, "niyaz_requests"),
-      where("eventId", "==", eventId),
-      orderBy("createdAt", "desc")
+      where("eventId", "==", eventId)
     );
     const snap = await getDocs(q);
     if (!snap.empty) {
       const list: NiyazRegistration[] = [];
       snap.forEach((d) => list.push(d.data() as NiyazRegistration));
+      list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
       return list;
     }
   } catch (err) {
@@ -230,13 +279,13 @@ export async function fetchEventSOSList(eventId: string): Promise<SOSRequest[]> 
   try {
     const q = query(
       collection(db, "sos_requests"),
-      where("eventId", "==", eventId),
-      orderBy("createdAt", "desc")
+      where("eventId", "==", eventId)
     );
     const snap = await getDocs(q);
     if (!snap.empty) {
       const list: SOSRequest[] = [];
       snap.forEach((d) => list.push(d.data() as SOSRequest));
+      list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
       return list;
     }
   } catch (err) {
@@ -286,68 +335,20 @@ export async function resolveSOSRequest(sosId: string): Promise<void> {
 }
 
 /**
- * Fetch all Lost & Found items/persons for an event
+ * Fetch all Lost & Found items/persons for an event (always preserves dummy items while syncing new reports)
  */
 export async function fetchEventLostFoundList(eventId: string): Promise<LostAndFoundItem[]> {
-  try {
-    const q = query(
-      collection(db, "lost_and_found"),
-      where("eventId", "==", eventId),
-      orderBy("createdAt", "desc")
-    );
-    const snap = await getDocs(q);
-    if (!snap.empty) {
-      const list: LostAndFoundItem[] = [];
-      snap.forEach((d) => list.push(d.data() as LostAndFoundItem));
-      return list;
-    }
-  } catch (err) {
-    console.warn("Could not fetch Lost & Found list:", err);
-  }
-
-  // Realistic mock Lost & Found items
-  return [
-    {
-      id: `lf_${eventId}_1`,
-      eventId,
-      itemType: "person",
-      name: "Ali Raza (Age 7)",
-      description: "Child wearing black kurta with green badge. Was walking with grandmother near Sabeel #1.",
-      location: "Grand Trunk Road, near Sabeel #1",
-      status: "lost",
-      reportedBy: {
-        uid: "vol-99",
-        name: "Volunteer Qasim Zaidi",
-        phone: "+91 98123 45678",
-        role: "volunteer",
-      },
-      photoUrl: "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?auto=format&fit=crop&w=200&q=80",
-      isBroadcasted: true,
-      createdAt: Date.now() - 3600000,
-    },
-    {
-      id: `lf_${eventId}_2`,
-      eventId,
-      itemType: "item",
-      name: "Apple iPhone 13 (Midnight Blue)",
-      description: "Found on sidewalk bench near Sector 4 checkpoint. Locked screen with family wallpaper.",
-      location: "Sector 4 Sabeel Rest Stop",
-      status: "found",
-      reportedBy: {
-        uid: "vol-88",
-        name: "Volunteer Sajjad",
-        phone: "+91 98789 12345",
-        role: "volunteer",
-      },
-      createdAt: Date.now() - 5400000,
-    },
-  ];
+  return fetchEventLostAndFound(eventId);
 }
 
 /**
  * Resolve Lost & Found item/person (Committee only)
  */
 export async function resolveLostFoundItem(itemId: string): Promise<void> {
+  // Update local storage
+  updateLocalLostAndFoundStatus(itemId, "resolved");
+
+  // Update Firestore
   try {
     await updateDoc(doc(db, "lost_and_found", itemId), {
       status: "resolved",

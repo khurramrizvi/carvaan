@@ -66,6 +66,7 @@ export interface VolunteerRegistration {
   phone: string;
   email: string;
   profilePicture?: string;
+  rolePreference?: string;
   status: VolunteerStatus;
   attendance: AttendanceStatus;
   appliedAt: number;

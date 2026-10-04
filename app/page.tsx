@@ -167,7 +167,7 @@ function HomeContent() {
           </div>
 
           {/* Primary CTA Row */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <div className="flex items-center justify-center pt-2">
             <button
               type="button"
               onClick={() => {
@@ -178,23 +178,6 @@ function HomeContent() {
             >
               <span>Explore Live Processions</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-
-            <Link
-              href="/committee/events"
-              className="w-full sm:w-auto px-6 py-3 rounded-full bg-white text-[#171717] border border-[#ebebeb] hover:border-[#171717] hover:bg-[#fafafa] text-sm font-medium transition-all shadow-[0_1px_2px_rgba(0,0,0,0.05)] flex items-center justify-center space-x-2"
-            >
-              <Building2 className="w-4 h-4 text-[#0070f3]" />
-              <span>Committee Workspace</span>
-            </Link>
-
-            <button
-              type="button"
-              onClick={() => setIsSosModalOpen(true)}
-              className="w-full sm:w-auto px-5 py-3 rounded-full bg-[#ee0000] text-white hover:bg-[#c50000] text-sm font-medium transition-all shadow-[0_2px_8px_rgba(238,0,0,0.25)] flex items-center justify-center space-x-1.5 cursor-pointer"
-            >
-              <AlertTriangle className="w-4 h-4" />
-              <span>SOS Emergency</span>
             </button>
           </div>
 
@@ -301,93 +284,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* =====================================================================
-          EASY-TO-USE INTERACTIVE ROLE SELECTOR BAR
-          ===================================================================== */}
-      <section className="bg-white border-b border-[#ebebeb] sticky top-16 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between overflow-x-auto no-scrollbar py-3 gap-2">
-            <div className="flex items-center space-x-1.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => setActiveTab("processions")}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all flex items-center space-x-2 cursor-pointer ${
-                  activeTab === "processions"
-                    ? "bg-[#171717] text-white shadow-sm"
-                    : "text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5]"
-                }`}
-              >
-                <Compass className="w-3.5 h-3.5" />
-                <span>Processions ({events.length})</span>
-              </button>
 
-              <button
-                type="button"
-                onClick={() => setActiveTab("volunteers")}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all flex items-center space-x-2 cursor-pointer ${
-                  activeTab === "volunteers"
-                    ? "bg-[#171717] text-white shadow-sm"
-                    : "text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5]"
-                }`}
-              >
-                <HeartHandshake className="w-3.5 h-3.5" />
-                <span>Volunteer Corps</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("committees")}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all flex items-center space-x-2 cursor-pointer ${
-                  activeTab === "committees"
-                    ? "bg-[#171717] text-white shadow-sm"
-                    : "text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5]"
-                }`}
-              >
-                <Building2 className="w-3.5 h-3.5" />
-                <span>Committees</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("niyaz")}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all flex items-center space-x-2 cursor-pointer ${
-                  activeTab === "niyaz"
-                    ? "bg-[#171717] text-white shadow-sm"
-                    : "text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5]"
-                }`}
-              >
-                <QrCode className="w-3.5 h-3.5" />
-                <span>Niyaz Passes</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("lost_found")}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all flex items-center space-x-2 cursor-pointer ${
-                  activeTab === "lost_found"
-                    ? "bg-[#171717] text-white shadow-sm"
-                    : "text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5]"
-                }`}
-              >
-                <UserSearch className="w-3.5 h-3.5" />
-                <span>Lost & Found</span>
-              </button>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="flex items-center space-x-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => setIsSosModalOpen(true)}
-                className="px-3 py-1.5 rounded-full text-xs font-medium bg-[#ee0000]/10 text-[#ee0000] border border-[#ee0000]/20 hover:bg-[#ee0000]/20 transition-all flex items-center space-x-1 cursor-pointer"
-              >
-                <AlertTriangle className="w-3 h-3" />
-                <span>Broadcast SOS</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* =====================================================================
           MAIN INTERACTIVE CONTENT AREA

@@ -495,6 +495,11 @@ export default function CommitteeEventDetailPage({
                           <td className="py-3.5 px-6">
                             <div className="font-semibold text-[#171717]">{vol.name}</div>
                             <div className="text-[10px] font-mono text-[#888888] mt-0.5">{vol.id}</div>
+                            {vol.rolePreference && (
+                              <div className="inline-block mt-1 px-2 py-0.5 rounded-full bg-[#fafafa] border border-[#ebebeb] text-[10px] font-medium text-[#555555]">
+                                {vol.rolePreference}
+                              </div>
+                            )}
                           </td>
                           <td className="py-3.5 px-6 text-[#171717] font-mono text-xs">{vol.phone}</td>
                           <td className="py-3.5 px-6 text-[#666666]">{vol.email}</td>
