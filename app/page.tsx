@@ -138,7 +138,7 @@ function HomeContent() {
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 text-center space-y-8">
           {/* Eyebrow Announcement Pill */}
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-mono bg-white border border-[#ebebeb] shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:border-[#171717]/40 transition-all cursor-pointer">
+          <div className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-mono bg-white border border-[#ebebeb] shadow-[0_1px_3px_rgba(0,0,0,0.05)] hover:border-[#171717]/40 transition-all cursor-pointer max-w-full">
             <div className="relative w-4 h-4 rounded-full overflow-hidden border border-[#ebebeb] shrink-0">
               <Image
                 src="/logo-white.png"
@@ -148,10 +148,10 @@ function HomeContent() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-[#171717] font-medium">Carvaan Engine 2.0</span>
-            <span className="text-[#ebebeb]">/</span>
-            <span className="text-[#666666]">Real-time Civic Telemetry</span>
-            <ArrowRight className="w-3 h-3 text-[#666666]" />
+            <span className="text-[#171717] font-medium shrink-0">Carvaan Engine 2.0</span>
+            <span className="text-[#ebebeb] hidden xs:inline">/</span>
+            <span className="text-[#666666] hidden xs:inline truncate">Real-time Civic Telemetry</span>
+            <ArrowRight className="w-3 h-3 text-[#666666] shrink-0" />
           </div>
 
           {/* Catchy Headline with Vercel Gradient */}
@@ -224,9 +224,9 @@ function HomeContent() {
 
         {/* Interactive Vercel-Style Live Console Preview */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12">
-          <div className="rounded-xl border border-[#262626] bg-[#111111] text-white p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)] space-y-4">
+          <div className="rounded-xl border border-[#262626] bg-[#111111] text-white p-4 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)] space-y-4">
             {/* Top Console Bar */}
-            <div className="flex items-center justify-between border-b border-[#262626] pb-3 text-xs">
+            <div className="flex flex-wrap items-center justify-between border-b border-[#262626] pb-3 text-xs gap-2">
               <div className="flex items-center space-x-2.5">
                 <div className="flex space-x-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#333333]" />
@@ -245,10 +245,10 @@ function HomeContent() {
                   </div>
                   <span className="font-mono text-white font-medium text-[11px]">carvaan</span>
                   <span className="text-[#444444]">/</span>
-                  <span className="font-mono text-[#888888] text-[11px]">telemetry-corridor</span>
+                  <span className="font-mono text-[#888888] text-[11px] truncate max-w-[120px] sm:max-w-none">telemetry-corridor</span>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 shrink-0">
                 <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-[#10b981]/20 text-[#10b981] border border-[#10b981]/30">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
                   <span>Sub-second GPS stream</span>
@@ -287,14 +287,14 @@ function HomeContent() {
             </div>
 
             {/* Live Terminal Ticker */}
-            <div className="p-3 rounded-lg bg-[#0d0d0d] border border-[#222222] font-mono text-[11px] text-[#888888] space-y-1">
-              <div className="text-white/90 flex items-center space-x-2">
+            <div className="p-3 rounded-lg bg-[#0d0d0d] border border-[#222222] font-mono text-[11px] text-[#888888] space-y-1 overflow-x-auto">
+              <div className="text-white/90 flex items-start space-x-2">
                 <span className="text-[#0070f3]">&gt;</span>
-                <span>[15:24:02] GPS Node #01 verified corridor perimeter clear</span>
+                <span className="break-all sm:break-normal">[15:24:02] GPS Node #01 verified corridor perimeter clear</span>
               </div>
-              <div className="text-[#888888] flex items-center space-x-2">
+              <div className="text-[#888888] flex items-start space-x-2">
                 <span className="text-[#10b981]">&gt;</span>
-                <span>[15:25:10] Niyaz Token #NY-8902 scanned and validated at Station B</span>
+                <span className="break-all sm:break-normal">[15:25:10] Niyaz Token #NY-8902 scanned and validated at Station B</span>
               </div>
             </div>
           </div>
@@ -410,11 +410,11 @@ function HomeContent() {
               {/* Search & Status Pill Filters */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 {/* Status Filter Pills */}
-                <div className="inline-flex p-1 rounded-full bg-[#f5f5f5] border border-[#ebebeb]">
+                <div className="inline-flex p-1 rounded-full bg-[#f5f5f5] border border-[#ebebeb] overflow-x-auto max-w-full no-scrollbar shrink-0">
                   <button
                     type="button"
                     onClick={() => setStatusFilter("all")}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
                       statusFilter === "all"
                         ? "bg-white text-[#171717] shadow-sm"
                         : "text-[#666666] hover:text-[#171717]"
@@ -425,7 +425,7 @@ function HomeContent() {
                   <button
                     type="button"
                     onClick={() => setStatusFilter("live")}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center space-x-1 ${
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center space-x-1 whitespace-nowrap shrink-0 ${
                       statusFilter === "live"
                         ? "bg-white text-[#ee0000] shadow-sm font-semibold"
                         : "text-[#666666] hover:text-[#171717]"
@@ -437,7 +437,7 @@ function HomeContent() {
                   <button
                     type="button"
                     onClick={() => setStatusFilter("upcoming")}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
                       statusFilter === "upcoming"
                         ? "bg-white text-[#171717] shadow-sm"
                         : "text-[#666666] hover:text-[#171717]"

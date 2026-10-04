@@ -251,20 +251,21 @@ export default function CommitteeEventDetailPage({
                   Ops Hub
                 </span>
                 <span className="text-[#ebebeb]">•</span>
-                <span className="text-xs text-[#171717] font-semibold truncate max-w-[200px] sm:max-w-xs">
+                <span className="text-xs text-[#171717] font-semibold truncate max-w-[130px] sm:max-w-xs">
                   {event.title}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 shrink-0">
             <Link
               href={`/events/${event.id}`}
               target="_blank"
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-[#ebebeb] bg-white text-xs font-medium text-[#171717] hover:bg-[#fafafa] transition-colors shadow-xs"
+              className="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border border-[#ebebeb] bg-white text-xs font-medium text-[#171717] hover:bg-[#fafafa] transition-colors shadow-xs"
             >
-              <span>Public Page</span>
+              <span className="hidden sm:inline">Public Page</span>
+              <span className="sm:hidden">Public</span>
               <ExternalLink className="w-3 h-3 text-[#888888]" />
             </Link>
           </div>
@@ -455,7 +456,7 @@ export default function CommitteeEventDetailPage({
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[700px]">
                   <thead>
                     <tr className="bg-[#fafafa] border-b border-[#ebebeb] text-[11px] font-mono uppercase tracking-wider text-[#888888]">
                       <th className="py-3 px-6">Profile</th>
@@ -594,7 +595,7 @@ export default function CommitteeEventDetailPage({
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[720px]">
                   <thead>
                     <tr className="bg-[#fafafa] border-b border-[#ebebeb] text-[11px] font-mono uppercase tracking-wider text-[#888888]">
                       <th className="py-3 px-6">ID & Subject</th>
@@ -722,7 +723,7 @@ export default function CommitteeEventDetailPage({
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[750px]">
                   <thead>
                     <tr className="bg-[#fafafa] border-b border-[#ebebeb] text-[11px] font-mono uppercase tracking-wider text-[#888888]">
                       <th className="py-3 px-6">ID & Item Name</th>
@@ -863,7 +864,7 @@ export default function CommitteeEventDetailPage({
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[700px]">
                   <thead>
                     <tr className="bg-[#fafafa] border-b border-[#ebebeb] text-[11px] font-mono uppercase tracking-wider text-[#888888]">
                       <th className="py-3 px-6">Incident ID</th>

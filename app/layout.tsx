@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { BottomNav } from "@/components/BottomNav";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -45,7 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-[#fafafa] text-[#171717] selection:bg-[#171717] selection:text-white">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+          <BottomNav />
+        </AuthProvider>
       </body>
     </html>
   );

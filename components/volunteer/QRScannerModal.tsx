@@ -70,8 +70,8 @@ export function QRScannerModal({ isOpen, onClose, eventId }: QRScannerModalProps
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-in fade-in">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 border border-[#ebebeb] shadow-[0_16px_50px_rgba(0,0,0,0.12)] relative space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-md animate-in fade-in">
+      <div className="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 border border-[#ebebeb] shadow-[0_16px_50px_rgba(0,0,0,0.12)] relative space-y-5 max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-1.5 rounded-full text-[#888888] hover:text-[#171717] hover:bg-[#f5f5f5] transition-colors"

@@ -129,16 +129,17 @@ export default function VolunteerPortalPage({
   const isApproved = volunteerRecord?.status === "approved";
 
   return (
-    <div className="min-h-screen bg-[#fafafa] pb-16 font-sans selection:bg-[#171717] selection:text-white">
+    <div className="min-h-screen bg-[#fafafa] pb-24 md:pb-16 font-sans selection:bg-[#171717] selection:text-white">
       {/* Top Header */}
       <header className="bg-white/80 backdrop-blur-md border-b border-[#ebebeb] sticky top-0 z-30">
         <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link
             href={`/events/${event.id}`}
-            className="inline-flex items-center space-x-2 text-xs font-medium text-[#666666] hover:text-[#171717] transition-colors"
+            className="inline-flex items-center space-x-1.5 text-xs font-medium text-[#666666] hover:text-[#171717] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Event Overview</span>
+            <span className="hidden sm:inline">Event Overview</span>
+            <span className="sm:hidden">Back</span>
           </Link>
 
           <Link href="/" className="flex items-center space-x-2 group">
@@ -152,7 +153,7 @@ export default function VolunteerPortalPage({
               />
             </div>
             <span className="font-semibold text-xs text-[#171717]">Carvaan</span>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#fafafa] text-[#666666] border border-[#ebebeb]">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#fafafa] text-[#666666] border border-[#ebebeb] hidden sm:inline-block">
               Volunteer Force
             </span>
           </Link>
@@ -296,9 +297,11 @@ export default function VolunteerPortalPage({
                         {sos.status}
                       </span>
                     </div>
-                    <div className="flex items-center space-x-2 text-[#888888]">
-                      <MapPin className="w-3.5 h-3.5 text-[#0070f3]" />
-                      <span>{sos.location}</span>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[#888888]">
+                      <span className="flex items-center space-x-1 shrink-0">
+                        <MapPin className="w-3.5 h-3.5 text-[#0070f3]" />
+                        <span className="font-medium text-[#171717]">{sos.location}</span>
+                      </span>
                       <span>•</span>
                       <span>Reported by: {sos.userName}</span>
                     </div>

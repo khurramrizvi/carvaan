@@ -67,12 +67,16 @@ export function EventCard({ event }: EventCardProps) {
 
           {/* Time & Location details */}
           <div className="pt-1 space-y-1.5 text-xs text-[#888888]">
-            <div className="flex items-center space-x-2 text-[#666666]">
-              <Calendar className="w-3.5 h-3.5 text-[#888888] shrink-0" />
-              <span>{event.date}</span>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[#666666]">
+              <span className="flex items-center space-x-1 shrink-0">
+                <Calendar className="w-3.5 h-3.5 text-[#888888] shrink-0" />
+                <span>{event.date}</span>
+              </span>
               <span className="text-[#ebebeb]">•</span>
-              <Clock className="w-3.5 h-3.5 text-[#888888] shrink-0" />
-              <span>{event.startTime} - {event.endTime}</span>
+              <span className="flex items-center space-x-1 shrink-0">
+                <Clock className="w-3.5 h-3.5 text-[#888888] shrink-0" />
+                <span>{event.startTime} - {event.endTime}</span>
+              </span>
             </div>
 
             <div className="flex items-start space-x-2">

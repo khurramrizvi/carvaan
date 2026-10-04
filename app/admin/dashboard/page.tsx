@@ -140,21 +140,22 @@ export default function AdminDashboardPage() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
-              <h1 className="text-sm font-semibold text-[#171717] leading-tight">
+            <div className="min-w-0">
+              <h1 className="text-sm font-semibold text-[#171717] leading-tight truncate">
                 Administration Portal
               </h1>
-              <p className="text-[11px] font-mono text-[#888888] tracking-tight">Organizing Committee Verification & Approvals</p>
+              <p className="text-[11px] font-mono text-[#888888] tracking-tight hidden sm:block">Organizing Committee Verification & Approvals</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 shrink-0">
             <button
               onClick={loadCommittees}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-[#ebebeb] bg-white text-xs font-medium text-[#171717] hover:bg-[#fafafa] transition-colors cursor-pointer"
+              className="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border border-[#ebebeb] bg-white text-xs font-medium text-[#171717] hover:bg-[#fafafa] transition-colors cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Refresh Data</span>
+              <span className="hidden sm:inline">Refresh Data</span>
+              <span className="sm:hidden">Refresh</span>
             </button>
           </div>
         </div>
@@ -220,7 +221,7 @@ export default function AdminDashboardPage() {
         {/* Committee Review Table Section */}
         <section className="bg-white rounded-2xl border border-[#ebebeb] shadow-xs overflow-hidden">
           {/* Table Header Controls */}
-          <div className="p-6 border-b border-[#ebebeb] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="p-4 sm:p-6 border-b border-[#ebebeb] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold tracking-tight text-[#171717]">Committee Applications</h2>
               <p className="text-xs text-[#666666]">
@@ -228,16 +229,16 @@ export default function AdminDashboardPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
               {/* Search Bar */}
-              <div className="relative">
+              <div className="relative flex-1 sm:flex-none">
                 <Search className="w-4 h-4 text-[#888888] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Search committee or email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 pr-3 py-1.5 bg-[#fafafa] border border-[#ebebeb] rounded-full text-xs text-[#171717] placeholder-[#888888] focus:outline-none focus:border-[#171717] focus:ring-2 focus:ring-[#171717]/10 w-64 transition-all"
+                  className="pl-9 pr-3 py-1.5 bg-[#fafafa] border border-[#ebebeb] rounded-full text-xs text-[#171717] placeholder-[#888888] focus:outline-none focus:border-[#171717] focus:ring-2 focus:ring-[#171717]/10 w-full sm:w-64 transition-all"
                 />
               </div>
 
@@ -258,7 +259,7 @@ export default function AdminDashboardPage() {
                 onClick={loadCommittees}
                 disabled={loading}
                 title="Refresh table"
-                className="p-2 border border-[#ebebeb] rounded-full text-[#171717] hover:bg-[#fafafa] transition-colors cursor-pointer"
+                className="p-2 border border-[#ebebeb] rounded-full text-[#171717] hover:bg-[#fafafa] transition-colors cursor-pointer shrink-0"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
               </button>
@@ -267,7 +268,7 @@ export default function AdminDashboardPage() {
 
           {/* Table */}
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-[#fafafa] border-b border-[#ebebeb] text-[11px] font-mono uppercase tracking-wider text-[#888888]">
                   <th className="py-3 px-6">Logo</th>

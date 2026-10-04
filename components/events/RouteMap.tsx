@@ -53,7 +53,7 @@ export function RouteMap({
       </div>
 
       {/* Visual Route Canvas */}
-      <div className="relative bg-[#111111] rounded-xl p-6 overflow-hidden text-white min-h-[220px] flex flex-col justify-between border border-[#262626]">
+      <div className="relative bg-[#111111] rounded-xl p-4 sm:p-6 overflow-hidden text-white min-h-[220px] flex flex-col justify-between border border-[#262626]">
         <div
           className="absolute inset-0 opacity-15"
           style={{
@@ -62,8 +62,8 @@ export function RouteMap({
           }}
         />
 
-        <div className="relative z-10 w-full my-auto py-4">
-          <div className="flex items-center justify-between relative">
+        <div className="relative z-10 w-full my-auto py-4 overflow-x-auto no-scrollbar">
+          <div className="flex items-center justify-between relative min-w-[320px] sm:min-w-0 px-2">
             <div className="absolute top-1/2 left-6 right-6 -translate-y-1/2 h-0.5 bg-gradient-to-r from-[#00dfd8] via-[#7928ca] to-[#ff0080] rounded-full" />
 
             {allPoints.map((point, idx) => {
@@ -76,7 +76,7 @@ export function RouteMap({
                   key={idx}
                   type="button"
                   onClick={() => setSelectedPoint(point)}
-                  className="group relative z-20 flex flex-col items-center focus:outline-none cursor-pointer"
+                  className="group relative z-20 flex flex-col items-center focus:outline-none cursor-pointer shrink-0"
                 >
                   <div
                     className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all
@@ -99,7 +99,7 @@ export function RouteMap({
                     )}
                   </div>
 
-                  <span className="mt-2 text-[11px] font-mono text-[#888888] group-hover:text-white max-w-[90px] text-center truncate">
+                  <span className="mt-2 text-[11px] font-mono text-[#888888] group-hover:text-white max-w-[80px] sm:max-w-[90px] text-center truncate">
                     {point.label}
                   </span>
                 </button>
@@ -108,11 +108,11 @@ export function RouteMap({
           </div>
         </div>
 
-        <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10 flex items-center justify-between text-xs">
-          <div className="flex items-center space-x-2">
+        <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10 flex items-center justify-between gap-2 text-xs">
+          <div className="flex items-center space-x-2 min-w-0">
             <Info className="w-4 h-4 text-[#00dfd8] shrink-0" />
-            <div>
-              <span className="font-semibold text-white">{selectedPoint.name}</span>
+            <div className="truncate">
+              <span className="font-semibold text-white truncate">{selectedPoint.name}</span>
               {selectedPoint.address && (
                 <span className="text-[#888888] ml-1.5 hidden sm:inline-block">
                   ({selectedPoint.address})
@@ -120,7 +120,7 @@ export function RouteMap({
               )}
             </div>
           </div>
-          <span className="text-[#888888] font-mono text-[11px]">
+          <span className="text-[#888888] font-mono text-[11px] shrink-0">
             {selectedPoint.lat.toFixed(4)}, {selectedPoint.lng.toFixed(4)}
           </span>
         </div>

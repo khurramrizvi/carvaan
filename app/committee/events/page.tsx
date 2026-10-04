@@ -164,16 +164,16 @@ export default function CommitteeEventsPage() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
-              <h1 className="text-sm font-semibold text-[#171717] leading-tight">
+            <div className="min-w-0">
+              <h1 className="text-sm font-semibold text-[#171717] leading-tight truncate max-w-[130px] sm:max-w-none">
                 {committeeProfile?.name || "Committee"} Workspace
               </h1>
-              <p className="text-[11px] font-mono text-[#888888] tracking-tight">Procession Organization & Control Operations</p>
+              <p className="text-[11px] font-mono text-[#888888] tracking-tight hidden sm:block">Procession Organization & Control Operations</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2.5">
-            <Link href="/">
+          <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
+            <Link href="/" className="hidden sm:inline-block">
               <Button variant="secondary" size="sm" pill>
                 Public Feed
               </Button>
@@ -183,10 +183,10 @@ export default function CommitteeEventsPage() {
               variant="primary"
               size="sm"
               pill
-              className="space-x-1.5"
+              className="space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 text-xs"
               onClick={() => setIsCreateModalOpen(true)}
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
               <span>Create Juloos</span>
             </Button>
           </div>
@@ -322,8 +322,8 @@ export default function CommitteeEventsPage() {
 
       {/* CREATE EVENT MODAL */}
       {isCreateModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto animate-in fade-in">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 border border-[#ebebeb] shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative my-8 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs overflow-y-auto animate-in fade-in">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-5 sm:p-6 border border-[#ebebeb] shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative my-auto space-y-5 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setIsCreateModalOpen(false)}
               className="absolute top-5 right-5 p-1 rounded-full text-[#888888] hover:text-[#171717] hover:bg-[#f5f5f5]"

@@ -55,8 +55,8 @@ export function SOSModal({ isOpen, onClose, eventId, user, onSuccess }: SOSModal
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#ebebeb] relative space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs animate-in fade-in">
+      <div className="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#ebebeb] relative space-y-5 max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
           disabled={loading}

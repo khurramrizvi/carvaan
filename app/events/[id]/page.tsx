@@ -157,10 +157,11 @@ export default function EventDetailPage({
             className="inline-flex items-center space-x-1.5 text-xs font-medium text-[#666666] hover:text-[#171717] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>All Processions</span>
+            <span className="hidden sm:inline">All Processions</span>
+            <span className="sm:hidden">Back</span>
           </Link>
 
-          <div className="flex items-center space-x-2.5">
+          <div className="flex items-center space-x-2 sm:space-x-2.5">
             <button
               onClick={() => {
                 if (navigator.share) {
@@ -181,11 +182,12 @@ export default function EventDetailPage({
               variant="danger"
               size="sm"
               pill
-              className="space-x-1 font-medium text-xs px-3 py-1"
+              className="space-x-1 font-medium text-xs px-2.5 sm:px-3 py-1 shrink-0"
               onClick={() => setIsSosModalOpen(true)}
             >
               <AlertTriangle className="w-3.5 h-3.5" />
-              <span>SOS EMERGENCY</span>
+              <span className="hidden sm:inline">SOS EMERGENCY</span>
+              <span className="sm:hidden">SOS</span>
             </Button>
           </div>
         </div>
@@ -244,17 +246,18 @@ export default function EventDetailPage({
           </div>
 
           {/* Quick Action Strip */}
-          <div className="p-4 bg-[#fafafa] border-t border-[#ebebeb] flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs text-[#666666] line-clamp-1 max-w-md">
+          <div className="p-4 bg-[#fafafa] border-t border-[#ebebeb] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p className="text-xs text-[#666666] line-clamp-2 sm:line-clamp-1 max-w-md">
               {event.description}
             </p>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               <Button
                 variant="primary"
                 size="sm"
                 pill
                 onClick={() => setIsVolunteerModalOpen(true)}
+                className="w-full sm:w-auto justify-center"
               >
                 <HeartHandshake className="w-3.5 h-3.5 mr-1.5 text-[#10b981]" />
                 <span>{volunteerRecord ? "Volunteer Status" : "Volunteer Here"}</span>
@@ -265,6 +268,7 @@ export default function EventDetailPage({
                 size="sm"
                 pill
                 onClick={() => setIsNiyazModalOpen(true)}
+                className="w-full sm:w-auto justify-center"
               >
                 <UtensilsCrossed className="w-3.5 h-3.5 mr-1.5 text-[#0070f3]" />
                 <span>Register Niyaz</span>

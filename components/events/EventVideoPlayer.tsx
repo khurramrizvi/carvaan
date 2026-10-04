@@ -40,19 +40,19 @@ export function EventVideoPlayer({
     <div className="bg-white rounded-2xl border border-[#ebebeb] p-5 sm:p-6 space-y-4 shadow-xs">
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#0070f3]/10 text-[#0070f3] flex items-center justify-center shrink-0 border border-[#0070f3]/20">
+        <div className="flex items-start sm:items-center space-x-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-xl bg-[#0070f3]/10 text-[#0070f3] flex items-center justify-center shrink-0 border border-[#0070f3]/20 mt-0.5 sm:mt-0">
             <Tv className="w-4 h-4" />
           </div>
-          <div>
-            <h3 className="text-base font-semibold text-[#171717]">{title}</h3>
+          <div className="min-w-0">
+            <h3 className="text-sm sm:text-base font-semibold text-[#171717] break-words line-clamp-2">{title}</h3>
             <p className="text-xs text-[#666666]">
               Real-time media telemetry & verified on-ground feed
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2.5">
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           {isLive ? (
             <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider bg-[#ee0000]/10 text-[#ee0000] border border-[#ee0000]/25">
               <span className="relative flex h-2 w-2">

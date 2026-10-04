@@ -52,8 +52,8 @@ export function VolunteerModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-in fade-in">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 border border-[#ebebeb] shadow-[0_16px_50px_rgba(0,0,0,0.12)] relative space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-md animate-in fade-in">
+      <div className="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 border border-[#ebebeb] shadow-[0_16px_50px_rgba(0,0,0,0.12)] relative space-y-5 max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
           disabled={loading}

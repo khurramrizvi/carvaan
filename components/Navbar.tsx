@@ -81,15 +81,16 @@ export function Navbar() {
           </nav>
 
           {/* Right Action Controls */}
-          <div className="flex items-center space-x-2.5">
+          <div className="flex items-center space-x-1.5 sm:space-x-2.5">
             {/* Quick SOS Trigger - Vercel Destructive Pill */}
             <button
               type="button"
               onClick={() => setIsSosModalOpen(true)}
-              className="px-3 py-1.5 rounded-full text-xs font-medium bg-[#ee0000] hover:bg-[#c50000] text-white flex items-center space-x-1.5 transition-all shadow-[0_1px_2px_rgba(238,0,0,0.2)] cursor-pointer"
+              className="px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium bg-[#ee0000] hover:bg-[#c50000] text-white flex items-center space-x-1 sm:space-x-1.5 transition-all shadow-[0_1px_2px_rgba(238,0,0,0.2)] cursor-pointer shrink-0"
             >
               <AlertTriangle className="w-3.5 h-3.5" />
-              <span>SOS Emergency</span>
+              <span className="hidden sm:inline">SOS Emergency</span>
+              <span className="sm:hidden">SOS</span>
             </button>
 
             {/* User Session or Login */}
@@ -158,16 +159,16 @@ export function Navbar() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1 sm:space-x-2">
                 <Link
                   href="/login"
-                  className="px-3.5 py-1.5 rounded-full text-xs font-medium text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5] transition-colors"
+                  className="px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs font-medium text-[#666666] hover:text-[#171717] hover:bg-[#f5f5f5] transition-colors"
                 >
                   Log In
                 </Link>
                 <Link
                   href="/register"
-                  className="px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#171717] hover:bg-[#2e2e2e] text-white transition-all shadow-[0_1px_2px_rgba(0,0,0,0.1)] flex items-center space-x-1"
+                  className="hidden sm:inline-flex px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#171717] hover:bg-[#2e2e2e] text-white transition-all shadow-[0_1px_2px_rgba(0,0,0,0.1)] items-center space-x-1"
                 >
                   <span>Sign Up</span>
                   <ArrowRight className="w-3 h-3" />
