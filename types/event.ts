@@ -43,8 +43,19 @@ export interface JuloosEvent {
   emergencyContacts?: { name: string; phone: string; role?: string }[];
   videoUrl?: string;
   coverImage?: string;
+  donationConfig?: EventDonationConfig;
   createdAt: number;
   updatedAt: number;
+}
+
+export interface EventDonationConfig {
+  upiId: string;
+  payeeName: string;
+  suggestedAmounts?: number[];
+  note?: string;
+  accountNumber?: string;
+  ifscCode?: string;
+  bankName?: string;
 }
 
 export interface VolunteerRegistration {

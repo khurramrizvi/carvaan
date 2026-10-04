@@ -23,6 +23,7 @@ import { VolunteerModal } from "@/components/events/VolunteerModal";
 import { NiyazModal } from "@/components/events/NiyazModal";
 import { SOSModal } from "@/components/events/SOSModal";
 import { LostFoundModal } from "@/components/events/LostFoundModal";
+import { EventDonationCard } from "@/components/events/EventDonationCard";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Navbar } from "@/components/Navbar";
@@ -46,6 +47,7 @@ import {
   Shield,
   Loader2,
   Share2,
+  Heart,
 } from "lucide-react";
 
 export default function EventDetailPage({
@@ -273,6 +275,20 @@ export default function EventDetailPage({
                 <UtensilsCrossed className="w-3.5 h-3.5 mr-1.5 text-[#0070f3]" />
                 <span>Register Niyaz</span>
               </Button>
+
+              <Button
+                variant="secondary"
+                size="sm"
+                pill
+                onClick={() => {
+                  const el = document.getElementById("donate-juloos-section");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="w-full sm:w-auto justify-center text-[#10b981] border-[#10b981]/30 hover:bg-[#10b981]/10"
+              >
+                <Heart className="w-3.5 h-3.5 mr-1.5 fill-current text-[#10b981]" />
+                <span>Donate / Hadiya</span>
+              </Button>
             </div>
           </div>
         </section>
@@ -462,6 +478,15 @@ export default function EventDetailPage({
               <p className="text-xs text-[#666666] leading-relaxed">
                 Certified organizing committee overseeing route safety, civic permissions, and volunteer assignments for this Juloos.
               </p>
+            </div>
+
+            {/* DONATE TO JULOOS VIA UPI QR CODE */}
+            <div id="donate-juloos-section">
+              <EventDonationCard
+                donationConfig={event.donationConfig}
+                committeeName={event.committeeName}
+                eventTitle={event.title}
+              />
             </div>
 
             {/* CARD 5: VOLUNTEER PARTICIPATION & ATTENDANCE */}

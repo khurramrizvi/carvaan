@@ -45,6 +45,7 @@ export default function CommitteeEventsPage() {
   const [endPointName, setEndPointName] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=ss-HcTBup88");
+  const [upiId, setUpiId] = useState("");
 
   const loadEvents = useCallback(async () => {
     if (!user) return;
@@ -114,6 +115,12 @@ export default function CommitteeEventsPage() {
         coverImage:
           coverImage ||
           "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80",
+        donationConfig: upiId.trim() ? {
+          upiId: upiId.trim(),
+          payeeName: committeeProfile?.name || "Organizing Committee",
+          suggestedAmounts: [100, 250, 500, 1000],
+          note: `Hadiya for ${title || "Juloos"}`,
+        } : undefined,
       });
 
       setEvents((prev) => [newEvent, ...prev]);
@@ -128,6 +135,7 @@ export default function CommitteeEventsPage() {
       setStartPointName("");
       setEndPointName("");
       setCoverImage("");
+      setUpiId("");
     } catch (err) {
       console.error("Error creating event:", err);
       alert("Failed to create event. Please try again.");
@@ -433,6 +441,15 @@ export default function CommitteeEventsPage() {
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
                 helperText="Embeds an interactive video player on the public event page"
+              />
+
+              <Input
+                label="Donation UPI ID for Juloos Fund (Optional)"
+                type="text"
+                placeholder="e.g. anjuman@icici or committee@upi"
+                value={upiId}
+                onChange={(e) => setUpiId(e.target.value)}
+                helperText="Enables attendees to donate directly to your Juloos via UPI QR code"
               />
 
               <div className="pt-2">
