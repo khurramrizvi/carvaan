@@ -24,47 +24,63 @@ import {
 export const SEED_EVENTS: JuloosEvent[] = [
   {
     id: "juloos-ashura-central",
-    title: "Central Youm-e-Ashura Procession",
+    title: "Central Youm-e-Ashura Procession (Mumbai)",
     description:
-      "The historic annual Ashura procession commemorating the martyrdom of Imam Hussain (A.S). The procession includes traditional taboot, alam processions, water and refreshment sabeels, and community aid points.",
+      "The historic annual Mumbai Ashura procession starting from Masjid-e-Iranian (Mughal Masjid) in Dongri, moving via Char Nalka, Nishanpada, and Sandhurst Road, concluding at Shia Kabristan Mazagaon (Rahmatabad). Features traditional taboot, alam processions, water and refreshment sabeels, and community aid points.",
     committeeId: "comm-markazi-hussaini",
-    committeeName: "Markazi Anjuman-e-Hussaini",
+    committeeName: "Markazi Anjuman-e-Hussaini Mumbai",
     committeeLogo: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=200&q=80",
     date: "2026-10-04",
     startTime: "09:00 AM",
     endTime: "07:30 PM",
     status: "live",
-    location: "Imambargah Shuhada to Central Karbala Grounds",
+    location: "Masjid-e-Iranian (Mughal Masjid), Dongri to Shia Kabristan Mazagaon",
     route: {
       startPoint: {
-        name: "Imambargah Shuhada-e-Karbala (Start)",
-        address: "Old City Gate, Market Square",
-        lat: 28.6139,
-        lng: 77.209,
+        name: "Masjid-e-Iranian (Mughal Masjid)",
+        address: "Imamwada Road, Bhendi Bazaar / Dongri, Mumbai - 400009",
+        lat: 18.9595,
+        lng: 72.8334,
       },
       endPoint: {
-        name: "Central Karbala Grounds (Destination)",
-        address: "Karbala Memorial Complex, Ring Road",
-        lat: 28.6328,
-        lng: 77.2197,
+        name: "Shia Kabristan Mazagaon (Rahmatabad)",
+        address: "Nariyalwadi, Mount Road / Dr Mascarenhas Rd, Mazgaon, Mumbai - 400010",
+        lat: 18.9698,
+        lng: 72.8442,
       },
       waypoints: [
-        { name: "Sabeel-e-Sakina Checkpoint", address: "Civil Lines Junction", lat: 28.621, lng: 77.212 },
-        { name: "Medical Aid Station #2", address: "Grand Trunk Road Crossing", lat: 28.627, lng: 77.216 },
+        {
+          name: "Char Nalka / Dongri Junction",
+          address: "Nishanpada Road Crossing, Dongri, Mumbai",
+          lat: 18.9622,
+          lng: 72.8368,
+        },
+        {
+          name: "Noor Baug / Sandhurst Road Overbridge",
+          address: "Bab-e-Ali Chowk, Sandhurst Road, Mumbai",
+          lat: 18.9654,
+          lng: 72.8398,
+        },
+        {
+          name: "Mazagaon Tadwadi Sabeel Station",
+          address: "Shivdas Champsi Marg, Mazgaon, Mumbai",
+          lat: 18.9680,
+          lng: 72.8422,
+        },
       ],
     },
     announcements: [
       {
         id: "ann-1",
-        title: "Medical Camps Active at Civil Lines",
-        content: "First aid and emergency ambulance points are operational at Checkpoint 2. Certified paramedics available.",
+        title: "Medical Camps Active at Sandhurst Road",
+        content: "First aid and emergency ambulance points are operational near Noor Baug overbridge. Certified paramedics available.",
         priority: "normal",
         createdAt: Date.now() - 3600000,
       },
       {
         id: "ann-2",
-        title: "Procession Entry Restricted from West Gate",
-        content: "Due to heavy footfall, incoming mourners are requested to enter via the North Boulevard Gate.",
+        title: "Procession Entry Corridor from Imamwada Road",
+        content: "Incoming mourners are requested to enter via Imamwada Road gate to ensure orderly flow toward Mughal Masjid.",
         priority: "urgent",
         createdAt: Date.now() - 1800000,
       },
@@ -73,9 +89,9 @@ export const SEED_EVENTS: JuloosEvent[] = [
     coverImage: "https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=1200&q=80",
     donationConfig: {
       upiId: "anjuman.hussaini@icici",
-      payeeName: "Markazi Anjuman-e-Hussaini Trust",
+      payeeName: "Markazi Anjuman-e-Hussaini Mumbai",
       suggestedAmounts: [100, 250, 500, 1000],
-      note: "Ashura Procession Sabeel & Relief Fund",
+      note: "Mumbai Ashura Procession Sabeel & Relief Fund",
       bankName: "State Bank of India",
       accountNumber: "918237461928",
       ifscCode: "SBIN0001234",
@@ -379,7 +395,19 @@ export async function fetchAllEvents(): Promise<JuloosEvent[]> {
 
   // 2. Local storage custom events
   const localEvents = getLocalEvents();
-  localEvents.forEach((e) => map.set(e.id, e));
+  localEvents.forEach((e) => {
+    if (e.id === "juloos-ashura-central" && (e.route?.startPoint?.lat === 28.6139 || !e.route?.startPoint?.lat)) {
+      const seed = SEED_EVENTS.find((s) => s.id === "juloos-ashura-central");
+      if (seed) {
+        e.route = seed.route;
+        e.location = seed.location;
+        e.title = seed.title;
+        e.description = seed.description;
+        saveLocalEvent(e);
+      }
+    }
+    map.set(e.id, e);
+  });
 
   // 3. Firestore events
   try {
@@ -388,6 +416,15 @@ export async function fetchAllEvents(): Promise<JuloosEvent[]> {
     if (!snap.empty) {
       snap.forEach((d) => {
         const item = d.data() as JuloosEvent;
+        if (item.id === "juloos-ashura-central" && (item.route?.startPoint?.lat === 28.6139 || !item.route?.startPoint?.lat)) {
+          const seed = SEED_EVENTS.find((s) => s.id === "juloos-ashura-central");
+          if (seed) {
+            item.route = seed.route;
+            item.location = seed.location;
+            item.title = seed.title;
+            item.description = seed.description;
+          }
+        }
         map.set(item.id, item);
       });
     }
@@ -404,12 +441,21 @@ export async function fetchAllEvents(): Promise<JuloosEvent[]> {
  * Fetch a single event by ID
  */
 export async function fetchEventById(eventId: string): Promise<JuloosEvent | null> {
+  const seed = SEED_EVENTS.find((e) => e.id === eventId);
+
   // 1. Check Firestore
   try {
     const docRef = doc(db, "events", eventId);
     const snap = await getDoc(docRef);
     if (snap.exists()) {
-      return snap.data() as JuloosEvent;
+      const item = snap.data() as JuloosEvent;
+      if (item.id === "juloos-ashura-central" && seed) {
+        item.route = seed.route;
+        item.location = seed.location;
+        item.title = seed.title;
+        item.description = seed.description;
+      }
+      return item;
     }
   } catch (err) {
     console.warn("Could not fetch event from Firestore:", err);
@@ -418,11 +464,19 @@ export async function fetchEventById(eventId: string): Promise<JuloosEvent | nul
   // 2. Check local storage
   const localEvents = getLocalEvents();
   const local = localEvents.find((e) => e.id === eventId);
-  if (local) return local;
+  if (local) {
+    if (local.id === "juloos-ashura-central" && seed) {
+      local.route = seed.route;
+      local.location = seed.location;
+      local.title = seed.title;
+      local.description = seed.description;
+      saveLocalEvent(local);
+    }
+    return local;
+  }
 
   // 3. Check seed events
-  const fallback = SEED_EVENTS.find((e) => e.id === eventId);
-  return fallback || null;
+  return seed || null;
 }
 
 /**
