@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        getUserData().role == 'admin' ||
+        request.auth.token.email == 'admin@carvaan.com'
+      );
+    }
+    
+    function isApprovedCommittee() {
+      return isAuthenticated() &&
+        getUserData().role == 'committee' &&
+        getUserData().status == 'approved';
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      // Allow user creation on signup
+      allow create: if isOwner(userId);
+      // Only admin can alter status/role; users can update display name and photo
+      allow update: if isAdmin() || (
+        isOwner(userId) && 
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status'])
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Committee profile documents
+    match /committees/{committeeId} {
+      // Anyone logged in can view approved committees for event attribution
+      allow read: if isAuthenticated();
+      // New committee can submit registration with status 'pending'
+      allow create: if isOwner(committeeId) && request.resource.data.status == 'pending';
+      // Only admin can approve or reject; approved committee can update general info
+      allow update: if isAdmin() || (
+        isOwner(committeeId) && 
+        isApprovedCommittee() &&
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['status'])
+      );
+      allow delete: if isAdmin();
+    }
+  }
+}

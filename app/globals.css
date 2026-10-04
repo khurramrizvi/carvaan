@@ -1,26 +1,234 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Vercel Design System Tokens */
+  --vercel-primary: #171717;
+  --vercel-on-primary: #ffffff;
+  --vercel-ink: #171717;
+  --vercel-body: #666666;
+  --vercel-mute: #888888;
+  --vercel-hairline: #ebebeb;
+  --vercel-hairline-strong: #d4d4d4;
+  --vercel-canvas: #ffffff;
+  --vercel-canvas-soft: #fafafa;
+  --vercel-canvas-soft-2: #f5f5f5;
+
+  /* Vercel Brand Accents & Gradients */
+  --vercel-link: #0070f3;
+  --vercel-link-deep: #0761d1;
+  --vercel-success: #0070f3;
+  --vercel-error: #ee0000;
+  --vercel-warning: #f5a623;
+
+  --vercel-gradient-develop-start: #007cf0;
+  --vercel-gradient-develop-end: #00dfd8;
+  --vercel-gradient-preview-start: #7928ca;
+  --vercel-gradient-preview-end: #ff0080;
+  --vercel-gradient-ship-start: #ff4d4d;
+  --vercel-gradient-ship-end: #f9cb28;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-vercel-primary: var(--vercel-primary);
+  --color-vercel-ink: var(--vercel-ink);
+  --color-vercel-body: var(--vercel-body);
+  --color-vercel-mute: var(--vercel-mute);
+  --color-vercel-hairline: var(--vercel-hairline);
+  --color-vercel-canvas: var(--vercel-canvas);
+  --color-vercel-canvas-soft: var(--vercel-canvas-soft);
+  --color-vercel-link: var(--vercel-link);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--vercel-canvas-soft);
+  color: var(--vercel-ink);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Vercel Typography Scale & Principles (Geist & Geist Mono)
+   - Headlines: Weight 600 (font-semibold), sentence-case, tight negative letter spacing
+   - Body: Weight 400, neutral tracking
+   - Technical eyebrows & badges: Geist Mono (font-mono)
+   ========================================================================== */
+
+@layer base {
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-geist-sans), sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+}
+
+/* Vercel Display Hierarchy */
+.display-hero {
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.display-xl {
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.display-lg {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.display-md {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+
+.display-sm {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.body-lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: var(--vercel-body);
+}
+
+.body-md {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--vercel-body);
+}
+
+.body-sm {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--vercel-body);
+}
+
+.caption-mono {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ==========================================================================
+   Vercel Catchy Elements & Utility Styles
+   ========================================================================== */
+
+/* Signature Multi-stop Gradient Text */
+.vercel-gradient-text {
+  background-image: linear-gradient(135deg, #00dfd8 0%, #0070f3 50%, #ff0080 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.vercel-gradient-blue {
+  background-image: linear-gradient(135deg, #007cf0 0%, #00dfd8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.vercel-gradient-amber {
+  background-image: linear-gradient(135deg, #ff4d4d 0%, #f9cb28 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Subtle Vercel Dot Grid Background */
+.vercel-dot-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.vercel-dot-grid-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Atmospheric Glow */
+.vercel-glow-blue {
+  background: radial-gradient(circle, rgba(0, 112, 243, 0.12) 0%, rgba(0, 112, 243, 0) 70%);
+}
+
+.vercel-glow-purple {
+  background: radial-gradient(circle, rgba(121, 40, 202, 0.12) 0%, rgba(121, 40, 202, 0) 70%);
+}
+
+/* Sleek Cards */
+.vercel-card {
+  background-color: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vercel-card:hover {
+  border-color: rgba(23, 23, 23, 0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.vercel-card-interactive {
+  background-color: #ffffff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.vercel-card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: #171717;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Polarity Card (Vercel Terminal style) */
+.vercel-card-dark {
+  background-color: #111111;
+  color: #ffffff;
+  border: 1px solid #262626;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Mobile clean horizontal scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

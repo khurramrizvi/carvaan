@@ -1,0 +1,21 @@
+{
+  "name": "Carvaan - Community Juloos & Event Coordination",
+  "short_name": "Carvaan",
+  "description": "Mobile-first platform for Juloos tracking, volunteer operations, Niyaz verification, and emergency response.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafbfc",
+  "theme_color": "#0064e0",
+  "icons": [
+    {
+      "src": "/logo-white.png",
+      "sizes": "512x512 192x192 128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
